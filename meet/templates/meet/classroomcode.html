@@ -1,0 +1,185 @@
+{% extends "meet/base.html" %}  
+
+{% block content %}
+<div class="page-container">
+  <div class="code-container">
+    <h2 class="code-title">Your Classroom Code</h2>
+    <div class="code-input-group">
+      <input type="text" id="classCode" value="{{class_code}}" readonly placeholder="Enter classroom code">
+      <button id="copyButton" onclick="copyClassCode()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+        </svg>
+      </button>
+    </div>
+    <p class="code-help">Click the button to copy the code to clipboard</p>
+  </div>
+</div>
+
+<style>
+  .page-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4eaf0 100%);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .code-container {
+    background-color: white;
+    border-radius: 12px;
+    padding: 30px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    text-align: center;
+  }
+  
+  .code-title {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 25px;
+    font-weight: 600;
+  }
+  
+  .code-input-group {
+    display: flex;
+    width: 100%;
+    max-width: 450px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    margin: 0 auto;
+    border: 1px solid #e0e0e0;
+  }
+  
+  #classCode {
+    flex-grow: 1;
+    padding: 16px 20px;
+    border: none;
+    font-size: 18px;
+    color: #333;
+    outline: none;
+    background-color: #f9f9f9;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+  
+  #classCode::placeholder {
+    color: #999;
+    font-weight: normal;
+  }
+  
+  #copyButton {
+    background-color: #ffcc00;
+    color: #333;
+    border: none;
+    padding: 0 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+  }
+  
+  #copyButton:hover {
+    background-color: #ffb700;
+    transform: translateY(-2px);
+  }
+  
+  #copyButton svg {
+    width: 22px;
+    height: 22px;
+  }
+  
+  .code-help {
+    margin-top: 15px;
+    color: #777;
+    font-size: 14px;
+  }
+  
+  @media (max-width: 600px) {
+    .code-container {
+      padding: 20px;
+    }
+    
+    .code-title {
+      font-size: 20px;
+    }
+    
+    #classCode {
+      font-size: 16px;
+      padding: 14px 16px;
+    }
+    
+    #copyButton {
+      padding: 0 18px;
+    }
+  }
+</style>
+
+<script>
+  // Add a subtle entrance animation
+  document.addEventListener('DOMContentLoaded', function() {
+    const codeContainer = document.querySelector('.code-container');
+    codeContainer.style.opacity = '0';
+    codeContainer.style.transform = 'translateY(20px)';
+    codeContainer.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    
+    setTimeout(function() {
+      codeContainer.style.opacity = '1';
+      codeContainer.style.transform = 'translateY(0)';
+    }, 100);
+  });
+
+  // Improved copy function
+  function copyClassCode() {
+    const codeInput = document.getElementById('classCode');
+    const helpText = document.querySelector('.code-help');
+    const originalHelpText = helpText.textContent;
+    
+    // Try to use the modern Clipboard API first
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(codeInput.value)
+        .then(showCopySuccess)
+        .catch(() => {
+          // Fallback to the older method
+          fallbackCopy();
+        });
+    } else {
+      fallbackCopy();
+    }
+    
+    function fallbackCopy() {
+      codeInput.select();
+      document.execCommand('copy');
+      showCopySuccess();
+    }
+    
+    function showCopySuccess() {
+      // Visual feedback for button
+      const button = document.getElementById('copyButton');
+      const originalBg = button.style.backgroundColor || '#ffcc00';
+      
+      button.style.backgroundColor = '#4CAF50';
+      button.style.color = 'white';
+      button.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+      
+      // Update help text
+      helpText.textContent = 'Code copied to clipboard!';
+      helpText.style.color = '#4CAF50';
+      
+      setTimeout(() => {
+        button.style.backgroundColor = originalBg;
+        button.style.color = '#333';
+        button.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+        
+        helpText.textContent = originalHelpText;
+        helpText.style.color = '#777';
+      }, 2000);
+    }
+  }
+</script>
+{% endblock content %}

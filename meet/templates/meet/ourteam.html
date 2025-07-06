@@ -1,0 +1,235 @@
+{% extends "meet/base.html" %}
+{% load static %}
+{% block content %}
+<section class="team-section">
+    <div class="section-title">
+        <h2>Our Team</h2>
+        <p>Meet our talented team members who make everything possible.</p>
+    </div>
+    
+    <div class="team-grid">
+        <!-- Team Member 1 -->
+        <div class="team-member">
+            <div class="member-img rounded">
+                <img src="{% static 'meet/images/kratika.jpg'%}" alt="Muskan Khatarkar">
+            </div>
+            <div class="member-info">
+                <h3>Muskan Khatarkar</h3>
+                <div class="role">Computer Science Student</div>
+                <div class="member-details">
+                    <p>Branch: Computer Science</p>
+                    <p>Section: A</p>
+                    <p>Year: 3rd</p>
+                    <p>Semester: 6</p>
+                </div>
+                <div class="social-links">
+                    <a href="#" title="Email"><i>✉</i></a>
+                    <a href="#" title="LinkedIn"><i>in</i></a>
+                    <a href="#" title="GitHub"><i>🔗</i></a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Team Member 2 -->
+        <div class="team-member">
+            <div class="member-img rounded">
+                <img src="{% static 'meet/images/kratika.jpg'%}" alt="Kratika Singh Jaishankar">
+            </div>
+            <div class="member-info">
+                <h3>Kratika Singh </h3>
+                <div class="role">Computer Science Student</div>
+                <div class="member-details">
+                    <p>Branch: Computer Science</p>
+                    <p>Section: A</p>
+                    <p>Year: 3rd</p>
+                    <p>Semester: 6</p>
+                </div>
+                <div class="social-links">
+                    <a href="#" title="Email"><i>✉</i></a>
+                    <a href="#" title="LinkedIn"><i>in</i></a>
+                    <a href="#" title="GitHub"><i>🔗</i></a>
+                </div>
+            </div>
+        </div>
+        <div class="team-member">
+            <div class="member-img rounded">
+                <img src="{% static 'meet/images/profile.jpg'%}" alt="Kratika Singh Jaishankar">
+            </div>
+            <div class="member-info">
+                <h3> Jaishankar</h3>
+                <div class="role">Computer Science Student</div>
+                <div class="member-details">
+                    <p>Branch: Computer Science</p>
+                    <p>Section: A</p>
+                    <p>Year: 3rd</p>
+                    <p>Semester: 6</p>
+                </div>
+                <div class="social-links">
+                    <a href="#" title="Email"><i>✉</i></a>
+                    <a href="#" title="LinkedIn"><i>in</i></a>
+                    <a href="#" title="GitHub"><i>🔗</i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Arial', sans-serif;
+    }
+    
+    .team-section {
+        padding: 60px 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .section-title {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+    
+    .section-title h2 {
+        font-size: 36px;
+        color: #333;
+        position: relative;
+        padding-bottom: 15px;
+        margin-bottom: 20px;
+    }
+    
+    .section-title h2::after {
+        content: '';
+        position: absolute;
+        width: 100px;
+        height: 3px;
+        background-color: #3498db;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    
+    .section-title p {
+        color: #666;
+        font-size: 18px;
+    }
+    
+    .team-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 30px;
+    }
+    
+    .team-member {
+        width: 300px;
+        background-color: #fff;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .team-member:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    }
+    
+    .member-img {
+        width: 100%;
+        height: 300px;
+        overflow: hidden;
+    }
+    
+    .member-img.rounded {
+        border-radius: 50%;
+        width: 200px;
+        height: 200px;
+        margin: 30px auto 10px;
+        border: 5px solid #f0f0f0;
+    }
+    
+    .member-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+    
+    .team-member:hover .member-img img {
+        transform: scale(1.05);
+    }
+    
+    .member-info {
+        padding: 20px;
+        text-align: center;
+    }
+    
+    .member-info h3 {
+        font-size: 22px;
+        margin-bottom: 5px;
+        color: #333;
+    }
+    
+    .member-info .role {
+        color: #3498db;
+        font-weight: bold;
+        margin-bottom: 10px;
+        font-size: 16px;
+    }
+    
+    .member-details {
+        color: #666;
+        margin-bottom: 15px;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+    
+    .member-details p {
+        margin: 5px 0;
+    }
+    
+    .social-links {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+    }
+    
+    .social-links a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 35px;
+        height: 35px;
+        background-color: #f1f1f1;
+        border-radius: 50%;
+        color: #333;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    
+    .social-links a:hover {
+        background-color: #3498db;
+        color: white;
+    }
+    
+    @media screen and (max-width: 768px) {
+        .team-grid {
+            gap: 20px;
+        }
+        
+        .team-member {
+            width: 98%;
+            margin: 0 auto;
+        }
+        
+        .member-img.rounded {
+            width: 180px;
+            height: 180px;
+        }
+    }
+</style>
+{% endblock %}

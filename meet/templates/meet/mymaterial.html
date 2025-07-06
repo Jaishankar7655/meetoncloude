@@ -1,0 +1,112 @@
+{% extends "meet/base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2>My Materials</h2>
+    <div class="class-info">
+        <p>Your Class Code: <strong>{{ class_code }}</strong></p>
+    </div>
+
+    {% if success %}
+        {% if created_classrooms %}
+            <div class="classroom-list">
+                {% for classroom in created_classrooms %}
+                <div class="classroom-card">
+                    <h3>{{ classroom.title }}</h3>
+                    <div class="classroom-details">
+                        <p><strong>Teacher:</strong> {{ classroom.techer_name }}</p>
+                        <p><strong>Created by:</strong> {{ classroom.user.full_name }}</p>
+                        {% if classroom.file %}
+                            <div class="file-section">
+                                <p><strong>Attached File:</strong></p>
+                                <a href="{{ classroom.file.url }}" class="file-link" download>
+                                    Download Material
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="no-data">No classrooms found for this class code.</p>
+        {% endif %}
+    {% else %}
+        <div class="error-message">
+            {{ message }}
+        </div>
+    {% endif %}
+</div>
+
+<style>
+    .container {
+        padding: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .class-info {
+        margin-bottom: 20px;
+        padding: 10px;
+        background-color: #f5f5f5;
+        border-radius: 5px;
+    }
+
+    .classroom-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+    }
+
+    .classroom-card {
+        background-color: white;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .classroom-card h3 {
+        color: #4285f4;
+        margin-bottom: 15px;
+    }
+
+    .classroom-details p {
+        margin: 8px 0;
+    }
+
+    .file-section {
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 1px solid #eee;
+    }
+
+    .file-link {
+        display: inline-block;
+        padding: 8px 15px;
+        background-color: #4285f4;
+        color: white;
+        border-radius: 4px;
+        text-decoration: none;
+        margin-top: 10px;
+    }
+
+    .file-link:hover {
+        background-color: #3367d6;
+    }
+
+    .no-data {
+        text-align: center;
+        padding: 20px;
+        background-color: #f5f5f5;
+        border-radius: 8px;
+    }
+
+    .error-message {
+        color: #ea4335;
+        text-align: center;
+        padding: 20px;
+        background-color: #fde8e8;
+        border-radius: 8px;
+    }
+</style>
+{% endblock content %}

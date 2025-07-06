@@ -1,0 +1,330 @@
+{% extends "meet/base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <!-- Page Title -->
+    <h2 class="mb-4">Search Classrooms</h2>
+    
+    <!-- Search Form -->
+    <div class="search-card">
+        <form method="GET">
+            <div class="search-input-group">
+                <input type="text" name="search_query" class="search-input" placeholder="Enter teacher name or 6-digit class code" value="{{ request.GET.search_query|default:'' }}">
+                <button type="submit" class="search-button">
+                    <span class="search-button-text">Search</span>
+                    <i class="fas fa-search search-icon"></i>
+                </button>
+            </div>
+
+            <div class="search-input-group">
+                <!-- This is empty in original, kept for consistency -->
+            </div>
+
+            <small class="search-help-text">
+                Search by teacher name or enter a 6-digit class code
+            </small>
+            
+        </form>
+    </div>
+    
+    {% if search_performed %}
+        <div class="results-container">
+            <h3 class="mb-3">Search Results</h3>
+            
+            {% if results %}
+                <div class="classroom-grid">
+                    {% for classroom in results %}
+                        <div class="classroom-card">
+                            <div class="classroom-card-header">
+                                <h5 class="card-title">{{ classroom.title }}</h5>
+                            </div>
+                            <div class="classroom-card-body">
+                                <p class="card-text">
+                                    <strong>Teacher:</strong> {{ classroom.techer_name }}
+                                </p>
+                                
+                                {% if classroom.file.url %}
+                                    <p class="card-text file-info">
+                                        Has attached materials
+                                    </p>
+                                {% endif %}
+                            </div>
+                            <div class="classroom-card-footer">
+                                <a href="{{classroom.file.url}}" class="view-details-button">
+                                    View Details
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="no-results-alert">
+                    No classrooms found matching your search criteria.
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
+
+<style>
+    /* Container styling */
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 15px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    /* Page title responsive styling */
+    h2.mb-4 {
+        font-size: calc(1.25rem + 0.5vw);
+        margin-bottom: 1.5rem;
+    }
+    
+    /* Search card styling */
+    .search-card {
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 30px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    /* Search input group */
+    .search-input-group {
+        display: flex;
+        margin-bottom: 10px;
+        width: 100%;
+        flex-wrap: wrap;
+    }
+    
+    /* Search input */
+    .search-input {
+        flex: 1;
+        min-width: 200px;
+        padding: 12px 15px;
+        font-size: 16px;
+        border: 1px solid #ced4da;
+        border-radius: 4px 0 0 4px;
+        outline: none;
+        box-sizing: border-box;
+    }
+    
+    /* Updated Search button styles */
+    .search-button {
+        padding: 12px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 0 4px 4px 0;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 60px;
+        white-space: nowrap;
+    }
+    
+    .search-button:hover {
+        background-color: #0069d9;
+    }
+    
+    .search-icon {
+        display: none;
+    }
+    
+    /* Help text */
+    .search-help-text {
+        color: #6c757d;
+        font-size: 14px;
+        display: block;
+        width: 100%;
+        margin-top: 5px;
+    }
+    
+    /* Results container */
+    .results-container {
+        width: 100%;
+    }
+    
+    /* Results title */
+    .results-container h3.mb-3 {
+        font-size: calc(1.1rem + 0.3vw);
+        margin-bottom: 1rem;
+    }
+    
+    /* Results grid */
+    .classroom-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 20px;
+        width: 100%;
+    }
+    
+    /* Classroom card */
+    .classroom-card {
+        background-color: #fff;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .classroom-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+    }
+    
+    /* Card header */
+    .classroom-card-header {
+        background-color: #f5f5f5;
+        padding: 15px;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .card-title {
+        margin: 0;
+        font-size: 18px;
+        color: #333;
+        word-break: break-word;
+    }
+    
+    /* Card body */
+    .classroom-card-body {
+        padding: 15px;
+        flex-grow: 1;
+    }
+    
+    .card-text {
+        margin-bottom: 10px;
+        word-break: break-word;
+    }
+    
+    .file-info {
+        font-size: 14px;
+        color: #6c757d;
+    }
+    
+    /* Card footer */
+    .classroom-card-footer {
+        padding: 15px;
+        border-top: 1px solid #eee;
+    }
+    
+    /* View details button */
+    .view-details-button {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        text-align: center;
+        background-color: #fff;
+        color: #007bff;
+        border: 1px solid #007bff;
+        border-radius: 4px;
+        text-decoration: none;
+        transition: all 0.2s;
+        box-sizing: border-box;
+    }
+    
+    .view-details-button:hover {
+        background-color: #007bff;
+        color: #fff;
+    }
+    
+    /* No results alert */
+    .no-results-alert {
+        background-color: #d1ecf1;
+        color: #0c5460;
+        padding: 15px;
+        border-radius: 4px;
+        margin-top: 20px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    /* Large Screens */
+    @media (min-width: 1200px) {
+        .classroom-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+    
+    /* Medium Screens */
+    @media (max-width: 992px) {
+        .classroom-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    
+    /* Small Screens */
+    @media (max-width: 768px) {
+        .classroom-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        
+        .search-button-text {
+            display: none;
+        }
+        
+        .search-icon {
+            display: inline-block;
+        }
+        
+        .search-button {
+            padding: 12px 15px;
+        }
+        
+        .classroom-card-header,
+        .classroom-card-body,
+        .classroom-card-footer {
+            padding: 12px;
+        }
+        
+        .card-title {
+            font-size: 16px;
+        }
+    }
+    
+    /* Extra Small Screens */
+    @media (max-width: 576px) {
+        .classroom-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .search-input {
+            font-size: 14px;
+            padding: 10px 12px;
+            border-radius: 4px;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        
+        .search-button {
+            padding: 10px 15px;
+            width: 100%;
+            border-radius: 4px;
+        }
+        
+        .search-input-group {
+            flex-direction: column;
+        }
+        
+        h2.mb-4 {
+            font-size: 1.5rem;
+            text-align: center;
+        }
+        
+        .search-help-text {
+            text-align: center;
+        }
+    }
+</style>
+{% endblock %}

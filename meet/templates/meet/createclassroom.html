@@ -1,0 +1,133 @@
+{% extends "meet/base.html" %}  {% block content %} <div class="container mt-5">     <!-- Page Title -->     <h2 class="page-title">Create Classroom</h2>          <!-- Form Card -->     <div class="form-card">         <form method="POST" enctype="multipart/form-data">             {% csrf_token %}                          <!-- Form Fields with Custom File Input -->             <div class="form-fields">
+    {% for field in form %}
+        <div class="form-field">
+            {{ field.label_tag }}
+            {% if field.field.widget.input_type == 'file' %}
+                <div class="custom-file-upload">
+                    <input id="{{ field.id_for_label }}" type="{{ field.field.widget.input_type }}" name="{{ field.html_name }}" class="file-input" {% if field.field.required %}required{% endif %}>
+                    <label for="{{ field.id_for_label }}" class="file-button">
+                        <span class="button-text">Choose File</span>
+                        <span class="file-name">No file chosen</span>
+                    </label>
+                </div>
+                {% if field.help_text %}
+                    <span class="helptext">{{ field.help_text }}</span>
+                {% endif %}
+                {% if field.errors %}
+                    <ul class="errorlist">
+                        {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% else %}
+                {{ field }}
+                {% if field.help_text %}
+                    <span class="helptext">{{ field.help_text }}</span>
+                {% endif %}
+                {% if field.errors %}
+                    <ul class="errorlist">
+                        {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endif %}
+        </div>
+    {% endfor %}
+ </div>                          <!-- Submit Button -->             <div class="button-container">                 <input type="submit" value="Create Classroom" class="submit-button">             </div>         </form>     </div> </div>  <style>     /* Container styling */     .container {         max-width: 800px;         margin: 0 auto;         padding: 0 15px;     }          /* Page title */     .page-title {         margin-bottom: 30px;         color: #333;         font-size: 28px;         position: relative;         padding-bottom: 10px;     }          .page-title:after {         content: '';         position: absolute;         bottom: 0;         left: 0;         width: 100px;         height: 3px;         background-color: #f0f0f0;     }          /* Form card styling */     .form-card {         background-color: #fff;         border-radius: 8px;         padding: 30px;         box-shadow: 0 3px 15px rgba(0,0,0,0.1);         margin-bottom: 40px;     }          /* Form fields */     .form-fields p,
+.form-field {         margin-bottom: 20px;     }          .form-fields label,
+.form-field label {         display: block;         margin-bottom: 8px;         font-weight: 500;         color: #555;     }          .form-fields input[type="text"],     .form-fields input[type="email"],     .form-fields input[type="number"],     .form-fields input[type="password"],     .form-fields textarea,     .form-fields select {         width: 100%;         padding: 12px 15px;         border: 1px solid #ddd;         border-radius: 4px;         font-size: 16px;         transition: border-color 0.3s;     }          .form-fields input:focus,     .form-fields textarea:focus,     .form-fields select:focus {         border-color: #007bff;         outline: none;         box-shadow: 0 0 0 3px rgba(0,123,255,0.1);     }          .form-fields textarea {         min-height: 120px;         resize: vertical;     }
+
+/* Custom file upload styling */
+.custom-file-upload {
+position: relative;
+display: flex;
+align-items: center;
+margin-bottom: 10px;
+}
+
+.custom-file-upload .file-input {
+position: absolute;
+width: 0.1px;
+height: 0.1px;
+opacity: 0;
+overflow: hidden;
+z-index: -1;
+}
+
+.custom-file-upload .file-button {
+display: flex;
+align-items: center;
+cursor: pointer;
+width: 100%;
+}
+
+.custom-file-upload .button-text {
+background-color: #007bff;
+color: white;
+padding: 12px 20px;
+border-radius: 4px;
+font-size: 16px;
+transition: background-color 0.3s, transform 0.2s;
+display: inline-block;
+text-align: center;
+min-width: 150px;
+}
+
+.custom-file-upload .file-button:hover .button-text {
+background-color: #0069d9;
+transform: translateY(-2px);
+}
+
+.custom-file-upload .file-button:active .button-text {
+transform: translateY(0);
+}
+
+.custom-file-upload .file-name {
+margin-left: 15px;
+font-size: 14px;
+color: #6c757d;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
+max-width: 250px;
+}
+/* Help text */     .form-fields .helptext {         display: block;         font-size: 14px;         color: #6c757d;         margin-top: 5px;     }          /* Error messages */     .form-fields .errorlist {         list-style: none;         color: #dc3545;         padding: 0;         margin: 5px 0 0;         font-size: 14px;     }          /* Button container */     .button-container {         margin-top: 30px;         text-align: right;     }          /* Submit button */     .submit-button {         background-color: #007bff;         color: white;         border: none;         padding: 12px 30px;         font-size: 16px;         border-radius: 4px;         cursor: pointer;         transition: background-color 0.3s, transform 0.2s;     }          .submit-button:hover {         background-color: #0069d9;         transform: translateY(-2px);     }          .submit-button:active {         transform: translateY(0);     }          /* Responsive adjustments */     @media (max-width: 576px) {         .form-card {             padding: 20px;         }
+
+.custom-file-upload {
+ flex-direction: column;
+ align-items: flex-start;
+}
+
+.custom-file-upload .file-name {
+ margin-left: 0;
+ margin-top: 8px;
+ max-width: 100%;
+}
+
+.custom-file-upload .button-text {
+ width: 100%;
+}
+
+.submit-button {
+ width: 100%;
+}
+} 
+</style>
+
+<script>
+// Add JavaScript to update the filename display when a file is selected
+document.addEventListener('DOMContentLoaded', function() {
+const fileInputs = document.querySelectorAll('.file-input');
+
+fileInputs.forEach(input => {
+input.addEventListener('change', function(e) {
+    const fileName = e.target.files[0] ? e.target.files[0].name : 'No file chosen';
+    const fileNameDisplay = this.nextElementSibling.querySelector('.file-name');
+    fileNameDisplay.textContent = fileName;
+});
+});
+});
+</script>
+{% endblock content %}

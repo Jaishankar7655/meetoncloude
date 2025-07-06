@@ -1,0 +1,389 @@
+{% extends "meet/base.html" %}  
+
+{% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<div class="container">
+    <div class="row">
+        <div class="column">
+         
+       
+            
+            <!-- Quick links section -->
+            <div class="links-section">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <i class="fas fa-link"></i>
+                    </div>
+                    <h4 class="section-title">Quick Links</h4>
+                </div>
+                
+                <div class="quick-links">
+                    <a href="{% url 'dashboard' %}" class="link-card">
+                        <div class="link-card-body">
+                            <div class="link-icon">
+                                <i class="fas fa-tachometer-alt"></i>
+                            </div>
+                            <h5 class="link-title">Dashboard</h5>
+                            <p class="link-text">Return to your main dashboard</p>
+                        </div>
+                    </a>
+                    <a href="{% url 'search_class' %}" class="link-card">
+                        <div class="link-card-body">
+                            <div class="link-icon">
+                                <i class="fas fa-search"></i>
+                            </div>
+                            <h5 class="link-title">Find Classes</h5>
+                            <p class="link-text">Search for available classrooms</p>
+                        </div>
+                    </a>
+                    <a href="{% url 'CreateClassroomForm' %}" class="link-card">
+                        <div class="link-card-body">
+                            <div class="link-icon">
+                                <i class="fas fa-plus-circle"></i>
+                            </div>
+                            <h5 class="link-title">Create Class</h5>
+                            <p class="link-text">Create a new classroom</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Base Styles */
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+    
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background-color: #f8f9fa;
+    }
+    
+    /* Container Layout */
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 30px 15px;
+    }
+    
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    
+    .column {
+        flex: 1;
+        width: 100%;
+    }
+    
+    /* Page Header */
+    .page-header {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .header-title {
+        font-weight: 700;
+        color: #4e73df;
+        margin: 0;
+    }
+    
+    .header-button {
+        background-color: #4e73df;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+    }
+    
+    .header-button:hover {
+        background-color: #3a5cbe;
+        transform: translateY(-2px);
+    }
+    
+    /* Card Styles */
+    .card {
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        background-color: white;
+        overflow: hidden;
+        margin-bottom: 20px;
+        transition: all 0.3s ease;
+    }
+    
+    .card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    }
+    
+    .card-header {
+        background: linear-gradient(135deg, #4e73df 0%, #6f86d6 100%);
+        color: white;
+        padding: 15px 20px;
+        border: none;
+    }
+    
+    .card-title {
+        font-weight: 700;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .card-body {
+        padding: 20px;
+    }
+    
+    .card-text {
+        color: #6c757d;
+        margin-bottom: 15px;
+    }
+    
+    /* Input Group */
+    .input-group {
+        display: flex;
+        margin-bottom: 15px;
+    }
+    
+    .code-input {
+        flex: 1;
+        padding: 12px 15px;
+        font-size: 18px;
+        border: 1px solid #ddd;
+        border-right: none;
+        border-radius: 5px 0 0 5px;
+        background-color: #f5f5f5;
+        color: #333;
+        font-weight: 500;
+    }
+    
+    .copy-button {
+        background-color: #ffc107;
+        color: #333;
+        border: none;
+        padding: 0 20px;
+        border-radius: 0 5px 5px 0;
+        cursor: pointer;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+    }
+    
+    .copy-button:hover {
+        background-color: #e0a800;
+    }
+    
+    .copy-button.success {
+        background-color: #28a745;
+        color: white;
+    }
+    
+    /* Feedback Alert */
+    .feedback-alert {
+        background-color: #d4edda;
+        color: #155724;
+        padding: 10px 15px;
+        border-radius: 5px;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        display: none;
+    }
+    
+    /* Info Section */
+    .info-section {
+        text-align: center;
+        margin-top: 20px;
+    }
+    
+    .info-icon {
+        background-color: #f5f5f5;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 15px;
+    }
+    
+    .info-icon i {
+        font-size: 24px;
+        color: #4e73df;
+    }
+    
+    .info-text {
+        color: #6c757d;
+        font-size: 14px;
+    }
+    
+    /* Links Section */
+    .links-section {
+        margin-top: 30px;
+    }
+    
+    .section-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+    
+    .section-icon {
+        background-color: #4e73df;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 10px;
+    }
+    
+    .section-icon i {
+        color: white;
+        font-size: 12px;
+    }
+    
+    .section-title {
+        font-weight: 700;
+        color: #333;
+        margin: 0;
+    }
+    
+    /* Quick Links */
+    .quick-links {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+    
+    .link-card {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: block;
+    }
+    
+    .link-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    }
+    
+    .link-card-body {
+        padding: 20px;
+        text-align: center;
+    }
+    
+    .link-icon {
+        background-color: #f5f5f5;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 15px;
+    }
+    
+    .link-icon i {
+        font-size: 24px;
+        color: #4e73df;
+    }
+    
+    .link-title {
+        font-weight: 700;
+        color: #333;
+        margin: 0 0 8px;
+    }
+    
+    .link-text {
+        color: #6c757d;
+        font-size: 14px;
+        margin: 0;
+    }
+    
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+        .header-content {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
+        }
+        
+        .quick-links {
+            grid-template-columns: repeat(1, 1fr);
+        }
+    }
+</style>
+
+<script>
+  function copyClassCode() {
+    const codeInput = document.getElementById('classCode');
+    const feedbackAlert = document.getElementById('copyFeedback');
+    const copyButton = document.getElementById('copyButton');
+    
+    // Try to use the modern Clipboard API first
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(codeInput.value)
+        .then(showCopySuccess)
+        .catch(() => {
+          // Fallback to the older method
+          fallbackCopy();
+        });
+    } else {
+      fallbackCopy();
+    }
+    
+    function fallbackCopy() {
+      codeInput.select();
+      document.execCommand('copy');
+      showCopySuccess();
+    }
+    
+    function showCopySuccess() {
+      // Show the feedback alert
+      feedbackAlert.style.display = 'flex';
+      
+      // Change button style temporarily
+      copyButton.classList.add('success');
+      copyButton.innerHTML = '<i class="fas fa-check"></i> Copied';
+      
+      // Reset after a delay
+      setTimeout(() => {
+        feedbackAlert.style.display = 'none';
+        copyButton.classList.remove('success');
+        copyButton.innerHTML = '<i class="fas fa-copy"></i> Copy';
+      }, 2000);
+    }
+  }
+</script>
+{% endblock content %}

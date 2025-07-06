@@ -1,0 +1,150 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verification</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .email-header {
+            background-color: #5052b1;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .email-header h1 {
+            color: #ffffff;
+            margin: 0;
+            font-size: 24px;
+            font-weight: 600;
+        }
+        
+        .email-logo {
+            width: 120px;
+            height: auto;
+            margin-bottom: 15px;
+        }
+        
+        .email-body {
+            padding: 30px;
+        }
+        
+        .greeting {
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+        
+        .message {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        
+        .otp-container {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .otp-code {
+            font-size: 32px;
+            font-weight: 700;
+            color: #5052b1;
+            letter-spacing: 5px;
+        }
+        
+        .note {
+            font-size: 14px;
+            color: #666;
+            margin-top: 30px;
+            font-style: italic;
+        }
+        
+        .email-footer {
+            background-color: #f5f5f5;
+            padding: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .social-links {
+            margin-top: 15px;
+        }
+        
+        .social-icon {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background-color: #5052b1;
+            border-radius: 50%;
+            margin: 0 5px;
+            text-align: center;
+            line-height: 30px;
+        }
+        
+        .social-icon a {
+            color: #ffffff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="email-header">
+            <h1>Meet on Cloude</h1>
+        </div>
+        
+        <div class="email-body">
+            <div class="greeting">Hello, {{ email_data.name }}!</div>
+            
+            <div class="message">
+                Thank you for registering with Meet on Cloude. To complete your registration, please verify your email address by entering the OTP (One-Time Password) below:
+            </div>
+            
+            <div class="otp-container">
+                <div class="otp-code">{{ email_data.otp }}</div>
+            </div>
+            
+            <div class="message">
+                This OTP is valid for 10 minutes. If you didn't request this verification, please ignore this email.
+            </div>
+            
+            <div class="note">
+                Please do not reply to this email. This is an automated message.
+            </div>
+        </div>
+        
+        <div class="email-footer">
+            <div>&copy; 2025 Meet on Cloude. All rights reserved.</div>
+            <div class="social-links">
+                <span class="social-icon"><a href="#">f</a></span>
+                <span class="social-icon"><a href="#">t</a></span>
+                <span class="social-icon"><a href="#">in</a></span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
