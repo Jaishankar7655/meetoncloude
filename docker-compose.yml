@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  nginx:
+    build: 
+      context: ./nginx
+    container_name: nginx
+    ports:
+      - "80:80"
+    restart: always
+    depends_on:
+      - django
+    networks:
+      - app-network
+
+  django:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: django
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    command: >
+      sh -c "python manage.py migrate &&
+             gunicorn meetingoncloude.wsgi:application --bind 0.0.0.0:8000"
+    env_file:
+      - .env
+    restart: always
+    depends_on:
+      - mysql
+    networks:
+      - app-network
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: book
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: apppass
+    volumes:
+      - mysql_data:/var/lib/mysql
+    restart: always
+    networks:
+      - app-network
+
+volumes:
+  mysql_data:
+
+networks:
+  app-network:
