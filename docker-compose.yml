@@ -1,35 +1,36 @@
-version: '3.8'
+version: '3.8'  # Docker Compose version
 
 services:
   nginx:
     build: 
-      context: ./nginx
+      context: ./nginx        # Folder containing Dockerfile & nginx.conf
     container_name: nginx
     ports:
-      - "80:80"
+      - "80:80"               # Host port 80 mapped to container port 80
     restart: always
     depends_on:
-      - django
+      - django                # Wait for Django service before starting
     networks:
       - app-network
 
   django:
     build: 
-      context: .
-      dockerfile: Dockerfile
+      context: .              # Current directory for Django Dockerfile
+      dockerfile: Dockerfile  # Django Dockerfile name (default is Dockerfile)
     container_name: django
     ports:
-      - "8000:8000"
+      - "8000:8000"           # Host port 8000 (useful for development/testing)
     volumes:
-      - .:/app
+      - .:/app                # Mount current directory to container's /app
     command: >
       sh -c "python manage.py migrate &&
              gunicorn meetingoncloude.wsgi:application --bind 0.0.0.0:8000"
+                              # Run DB migrations then start Gunicorn server
     env_file:
-      - .env
+      - .env                  # Load environment variables from .env file
     restart: always
     depends_on:
-      - mysql
+      - mysql                 # Ensure MySQL starts before Django
     networks:
       - app-network
 
@@ -37,20 +38,22 @@ services:
     image: mysql:8.0
     container_name: mysql
     ports:
-      - "3306:3306"
+      - "3306:3306"           # Expose MySQL to host (optional in production)
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: book
       MYSQL_USER: appuser
       MYSQL_PASSWORD: apppass
+                              # Credentials for DB initialization
     volumes:
       - mysql_data:/var/lib/mysql
+                              # Persist MySQL data
     restart: always
     networks:
       - app-network
 
 volumes:
-  mysql_data:
+  mysql_data:                 # Named volume for MySQL persistence
 
 networks:
-  app-network:
+  app-network:                # Custom Docker network to allow service communication
