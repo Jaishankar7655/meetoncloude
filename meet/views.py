@@ -103,11 +103,11 @@ def userLogin(request):
             except UserRegister.DoesNotExist:
                 messages.error(request, 'Invalid username or password. Please try again.')
                 # Return the form with entered username to make it easier for the user
-                return render(request, 'meet/userLogin.html', {'form': form})
+                return render(request, 'meet/userlogin.html', {'form': form})
     else:
         form = UserLoginForm()
     
-    return render(request, 'meet/userLogin.html', {'form': form})
+    return render(request, 'meet/userlogin.html', {'form': form})
 
 def send_otp_mail(request, full_name, username, email, phone, profile):
     try:
