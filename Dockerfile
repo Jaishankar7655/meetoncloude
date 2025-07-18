@@ -1,7 +1,7 @@
 # Build stage
 FROM python:3.12-slim as builder
 
-WORKDIR /app/project
+WORKDIR /app
 
 # Install build dependencies
 RUN apt-get update \
@@ -14,7 +14,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements and install Python packages
-COPY requirements.txt /app/project/
+COPY requirements.txt /app/
 RUN pip install --upgrade pip
 RUN pip install mysqlclient
 RUN pip install --no-cache-dir -r requirements.txt
@@ -22,7 +22,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Production stage
 FROM python:3.12-slim
 
-WORKDIR /app/project
+WORKDIR /app
 
 # Install only runtime dependencies (no build tools)
 RUN apt-get update \
@@ -35,6 +35,6 @@ COPY --from=builder /usr/local/lib/python3.12/site-packages /usr/local/lib/pytho
 COPY --from=builder /usr/local/bin /usr/local/bin
 
 # Copy application code
-COPY . /app/project/
+COPY . /app/
 
 EXPOSE 8000
